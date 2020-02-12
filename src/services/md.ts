@@ -3,12 +3,6 @@ import * as glob from 'glob'
 import * as fs from 'fs'
 import {config} from '../configs/config'
 
-export interface SearchResult {
-  title: string;
-  desc?: string;
-  code?: string;
-}
-
 export type SectionCode = {
   lang: string;
   code: string;
@@ -18,30 +12,58 @@ export type Section = {
   desc: string[];
   code: SectionCode[];
 }
+// export type CacheSection = {
+//   src: Section;
+//   search: string;
+// }
 export type CacheSection = {
-  src: Section;
-  search: string;
+  [K in keyof Section]: {
+    src: Section[K];
+    search: string;
+  }
 }
 
 export class MarkdownService {
-  md = new MarkdownIt()
+  _md = new MarkdownIt()
 
+  _cache: CacheSection[] | null = null
+
+  get cache() {
+    if (this._cache === null) {
+      try {
+        this._cache = JSON.parse(fs.readFileSync(config.getTmpCacheFilePath(), {encoding: 'utf8'}))
+      } catch (error) {
+        this._cache = []
+      }
+    }
+
+    return this._cache
+  }
+
+  /**
+   * init cache data if not exist
+   */
   init() {
     if (!this._checkIfExistCache()) {
       this._buildCache()
     }
   }
 
-  search(text: string): SearchResult[] {
-    return []
-  }
-
+  /**
+   * update cache when data updated
+   */
   updateCache() {
     this._buildCache()
   }
 
+  search<K extends keyof CacheSection>(text: string, keys: K[]): CacheSection[] {
+    return (this.cache || []).filter(
+      cacheSection => new RegExp(text, 'ig').test(keys.map(key => cacheSection[key].search).join(' '))
+    )
+  }
+
   _checkIfExistCache(): boolean {
-    return false
+    return fs.existsSync(config.getTmpCacheFilePath())
   }
 
   _buildCache() {
@@ -54,7 +76,7 @@ export class MarkdownService {
     const cacheContent = mdFiles.map(filePath => {
       const getSections = () => {
         const fileContent = fs.readFileSync(filePath, {encoding: 'utf8'})
-        const tokens = this.md.parse(fileContent, {})
+        const tokens = this._md.parse(fileContent, {})
 
         let section: typeof tokens = []
         const sections: (typeof section)[] = []
@@ -81,11 +103,11 @@ export class MarkdownService {
           lang: token.info,
           code: token.content,
         }))
-        const search = `${title} ${desc.join('')} ${code.map(code => code.code).join('')}`
 
         return {
-          src: {title, desc, code},
-          search,
+          title: {src: title, search: title},
+          desc: {src: desc, search: desc.join(' ')},
+          code: {src: code, search: code.map(c => c.code).join(' ')},
         }
       })
 

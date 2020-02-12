@@ -1,40 +1,66 @@
 import * as gh from 'parse-github-url'
 import * as shell from 'shelljs'
 import * as fs from 'fs'
+import * as highlight from 'cli-highlight'
 import {config} from '../configs/config'
 
-export class Data {
+export class DataService {
+  tmpDir: string
+
+  repos: string[]
+
   constructor() {
     if (!shell.which('git')) {
       throw new Error('Error, git required!')
     }
-  }
 
-  init(): void {
-    const tmpDir = config.getTmpReposDir()
-    const repos = config.getRepos()
+    this.tmpDir = config.getTmpReposDir()
+    this.repos = config.getRepos()
 
     // check if exist temp dir
-    if (!fs.existsSync(tmpDir)) {
-      shell.mkdir('-p', tmpDir)
+    if (!fs.existsSync(this.tmpDir)) {
+      shell.mkdir('-p', this.tmpDir)
     }
+  }
 
-    // clone repo
-    repos.forEach(repoUrl => {
+  /**
+   * clone data from git repoo
+   * if repo exist in local, it will be skipped
+   */
+  init(): void {
+    this.repos.forEach(repoUrl => {
       const parsedUrl = gh(repoUrl)
 
       if (!parsedUrl) return
 
       const {repo} = parsedUrl
-      if (!fs.existsSync(`${tmpDir}/${repo}`)) {
-        shell.exec(`git clone ${repoUrl} ${tmpDir}/${repo}`)
+      if (!fs.existsSync(`${this.tmpDir}/${repo}`)) {
+        shell.exec(`git clone ${repoUrl} ${this.tmpDir}/${repo}`)
       }
     })
   }
 
+  /**
+   * update all repo data
+   * execute: git pull
+   */
   update(): void {
-    // pull repo content
+    this.init()
+
+    this.repos.forEach(repoUrl => {
+      const parsedUrl = gh(repoUrl)
+
+      if (!parsedUrl) return
+
+      const {repo} = parsedUrl
+      if (fs.existsSync(`${this.tmpDir}/${repo}`)) {
+        const cmd = `cd ${this.tmpDir}/${repo} && git pull 1>/dev/null`
+        console.log('excuting: ')
+        console.log('  ', highlight.highlight(cmd, {language: 'bash'}))
+        shell.exec(cmd)
+      }
+    })
   }
 }
 
-export const data = new Data()
+export const dataService = new DataService()
