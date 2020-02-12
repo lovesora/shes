@@ -1,7 +1,7 @@
 {
   "name": "shes",
   "description": "shell commands examples and snippets",
-  "version": "0.0.1-beta.0",
+  "version": "1.0.0",
   "author": "Sora Liu @lovesora <soraliu.dev@gmail.com>",
   "bin": {
     "shes": "./bin/run"

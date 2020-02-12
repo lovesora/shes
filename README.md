@@ -20,7 +20,7 @@ $ npm install -g shes
 $ shes COMMAND
 running command...
 $ shes (-v|--version|version)
-shes/0.0.1-beta.0 darwin-x64 node-v12.13.0
+shes/1.0.0 darwin-x64 node-v12.13.0
 $ shes --help [COMMAND]
 USAGE
   $ shes COMMAND
@@ -54,7 +54,7 @@ EXAMPLE
   $ shes data update
 ```
 
-_See code: [src/commands/data.ts](https://github.com/lovesora/shes/blob/v0.0.1-beta.0/src/commands/data.ts)_
+_See code: [src/commands/data.ts](https://github.com/lovesora/shes/blob/v1.0.0/src/commands/data.ts)_
 
 ## `shes hello [FILE]`
 
@@ -74,7 +74,7 @@ EXAMPLE
   hello world from ./src/hello.ts!
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/lovesora/shes/blob/v0.0.1-beta.0/src/commands/hello.ts)_
+_See code: [src/commands/hello.ts](https://github.com/lovesora/shes/blob/v1.0.0/src/commands/hello.ts)_
 
 ## `shes help [COMMAND]`
 
@@ -113,5 +113,5 @@ EXAMPLE
   find . -type f -name '*.ts'
 ```
 
-_See code: [src/commands/search.ts](https://github.com/lovesora/shes/blob/v0.0.1-beta.0/src/commands/search.ts)_
+_See code: [src/commands/search.ts](https://github.com/lovesora/shes/blob/v1.0.0/src/commands/search.ts)_
 <!-- commandsstop -->
