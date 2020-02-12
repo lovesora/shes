@@ -1,6 +1,7 @@
 import {Command, flags} from '@oclif/command'
 import {dataService} from '../services/data'
 import {mdService, CacheSection} from '../services/md'
+import {logTitle, logDesc, logCode} from '../utils/log'
 
 export default class Search extends Command {
   static description = 'search [text]'
@@ -57,7 +58,24 @@ find . -type f -name '*.ts'
 
     const searchResult = mdService.search(searchText, field as [keyof CacheSection])
 
-    this.log(`${field} ${output} ${searchText}`)
-    this.log(JSON.stringify(searchResult.map(s => s.title.src)))
+    if (searchResult.length === 0) {
+      this.warn('nothing found!')
+      this.exit()
+      return
+    }
+
+    switch (output) {
+    case 'example':
+      this.displayExample(searchResult)
+      break
+    }
+  }
+
+  displayExample(searchResult: CacheSection[]): void {
+    searchResult.forEach(sec => {
+      logTitle(sec.title.src)
+      logDesc(sec.desc.src)
+      logCode(sec.code.src)
+    })
   }
 }

@@ -12,6 +12,7 @@
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",
     "cli-highlight": "^2.1.4",
+    "colors": "^1.4.0",
     "glob": "^7.1.6",
     "markdown-it": "^10.0.0",
     "parse-github-url": "^1.0.2",
@@ -39,7 +40,7 @@
     "typescript": "^3.3"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=10.0.0"
   },
   "files": [
     "/bin",

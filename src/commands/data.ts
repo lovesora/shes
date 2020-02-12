@@ -38,8 +38,11 @@ update: update repo data
 
     switch (subArg) {
     case 'update': {
+      console.log('updating data...')
       dataService.update()
+      console.log('updating cache...')
       mdService.updateCache()
+      console.log('done')
       break
     }
     default:

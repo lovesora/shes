@@ -12,10 +12,7 @@ export type Section = {
   desc: string[];
   code: SectionCode[];
 }
-// export type CacheSection = {
-//   src: Section;
-//   search: string;
-// }
+
 export type CacheSection = {
   [K in keyof Section]: {
     src: Section[K];
@@ -56,7 +53,7 @@ export class MarkdownService {
     this._buildCache()
   }
 
-  search<K extends keyof CacheSection>(text: string, keys: K[]): CacheSection[] {
+  search(text: string, keys: [keyof CacheSection]): CacheSection[] {
     return (this.cache || []).filter(
       cacheSection => new RegExp(text, 'ig').test(keys.map(key => cacheSection[key].search).join(' '))
     )
@@ -98,7 +95,11 @@ export class MarkdownService {
       const cacheSections: CacheSection[] = sections.map(tokens => {
         const headingCloseIndex = tokens.findIndex(token => token.type === 'heading_close')
         const title = tokens.slice(1, headingCloseIndex).reduce((prev, next) => prev + next.content, '')
-        const desc = tokens.slice(headingCloseIndex + 1).filter(token => token.type === 'inline').map(token => token.content)
+        const desc = tokens
+        .slice(headingCloseIndex + 1)
+        .filter(token => token.type === 'inline')
+        .map(token => token.content.replace(/<!--.*?-->/gs, ''))
+        .filter(content => Boolean(content))
         const code = tokens.slice(headingCloseIndex + 1).filter(token => token.type === 'fence' && token.tag === 'code').map(token => ({
           lang: token.info,
           code: token.content,
