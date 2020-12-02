@@ -105,11 +105,11 @@ find . -type f -name '*.ts'
         try {
           const result = choices.filter(i => new RegExp(input, 'i').test(i.title))
           if (result.length === 0) {
-            result.push({title: 'nothing found', value: null, disable: true})
+            result.push({title: 'nothing found', value: null, disabled: true})
           }
           return Promise.resolve(result)
         } catch (error) {
-          return Promise.resolve([{title: 'invalid regexp', value: null, disable: true}])
+          return Promise.resolve([{title: 'invalid regexp', value: null, disabled: true}])
         }
       },
     })
@@ -160,7 +160,7 @@ find . -type f -name '*.ts'
         try {
           const result = choices.filter(i => new RegExp(input, 'i').test(i.title))
           if (result.length === 0) {
-            result.push({title: 'nothing found', value: null, disable: true})
+            result.push({title: 'nothing found', value: null, disabled: true})
           }
           return Promise.resolve(result)
         } catch (error) {
