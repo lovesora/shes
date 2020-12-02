@@ -20,7 +20,7 @@ $ npm install -g shes
 $ shes COMMAND
 running command...
 $ shes (-v|--version|version)
-shes/1.0.1 darwin-x64 node-v12.13.0
+shes/1.0.2 darwin-x64 node-v12.13.0
 $ shes --help [COMMAND]
 USAGE
   $ shes COMMAND
@@ -31,7 +31,6 @@ USAGE
 <!-- commands -->
 * [`shes cmd SEARCHTEXT`](#shes-cmd-searchtext)
 * [`shes data SUBARG`](#shes-data-subarg)
-* [`shes hello [FILE]`](#shes-hello-file)
 * [`shes help [COMMAND]`](#shes-help-command)
 * [`shes script SEARCHTEXT`](#shes-script-searchtext)
 * [`shes search SEARCHTEXT`](#shes-search-searchtext)
@@ -59,7 +58,7 @@ EXAMPLE
   find . -type f -name '*.ts'
 ```
 
-_See code: [src/commands/cmd.ts](https://github.com/lovesora/shes/blob/v1.0.1/src/commands/cmd.ts)_
+_See code: [src/commands/cmd.ts](https://github.com/lovesora/shes/blob/v1.0.2/src/commands/cmd.ts)_
 
 ## `shes data SUBARG`
 
@@ -81,27 +80,7 @@ EXAMPLE
   $ shes data update
 ```
 
-_See code: [src/commands/data.ts](https://github.com/lovesora/shes/blob/v1.0.1/src/commands/data.ts)_
-
-## `shes hello [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ shes hello [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-
-EXAMPLE
-  $ shes hello
-  hello world from ./src/hello.ts!
-```
-
-_See code: [src/commands/hello.ts](https://github.com/lovesora/shes/blob/v1.0.1/src/commands/hello.ts)_
+_See code: [src/commands/data.ts](https://github.com/lovesora/shes/blob/v1.0.2/src/commands/data.ts)_
 
 ## `shes help [COMMAND]`
 
@@ -142,7 +121,7 @@ EXAMPLE
   Find files by dirname
 ```
 
-_See code: [src/commands/script.ts](https://github.com/lovesora/shes/blob/v1.0.1/src/commands/script.ts)_
+_See code: [src/commands/script.ts](https://github.com/lovesora/shes/blob/v1.0.2/src/commands/script.ts)_
 
 ## `shes search SEARCHTEXT`
 
@@ -167,5 +146,5 @@ EXAMPLE
   find . -type f -name '*.ts'
 ```
 
-_See code: [src/commands/search.ts](https://github.com/lovesora/shes/blob/v1.0.1/src/commands/search.ts)_
+_See code: [src/commands/search.ts](https://github.com/lovesora/shes/blob/v1.0.2/src/commands/search.ts)_
 <!-- commandsstop -->
